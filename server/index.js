@@ -1,25 +1,28 @@
-let express = require("express"),
-    bp = require("body-parser"),
-    cors = require("cors"),
-    server = express(),
-    port = 3000;
+var express = require('express');
+var bp = require('body-parser')
+var cors = require('cors')
+var server = express();
 
-require("../server/db/mlab-config");
+var port = 3000
+var mytunesRoutes = require("./routes/mytunes")
+var port = 3000;
+
+require("./db/mlab-config");
+
+
 var whitelist = ['http://localhost:8080']
 var corsOptions = {
     origin: function(origin, callback) {
-        var originIsWhiteListed = whitelist.indexOf(origin) !== -1
-        callback(null, originIsWhiteListed)
+        var originIsWhiteListed = whitelist.indexOf(origin) !== -1;
+        callback(null, originIsWhiteListed);
     },
     credentials: true
 }
 
-server.use(cors());
+server.use(cors(corsOptions));
 server.use(bp.json());
 server.use(bp.urlencoded({ extended: true }));
-
-//Your routes here
-
+server.use(mytunesRoutes.router)
 
 server.use("*", (error, req, res, next) => {
     res.status(400).send(error);

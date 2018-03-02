@@ -3,11 +3,11 @@ var Schema = mongoose.Schema;
 var schemaName = "Mytune"
 
 var schema = new Schema({
-    title: { type: String, required: true },
-    albumArt: { type: String, required: false },
-    artist: { type: String, required: true },
+    trackName: { type: String, required: true },
+    artworkUrl130: { type: String, required: false },
+    artistName: { type: String, required: true },
     price: { type: Number, required: false },
-    preview: { type: String, required: true }
+    previewUrl: { type: String, required: true }
 });
 
 module.exports = mongoose.model(schemaName, schema)
