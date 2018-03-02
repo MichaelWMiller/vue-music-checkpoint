@@ -4,9 +4,9 @@ var schemaName = "Mytune"
 
 var schema = new Schema({
     trackName: { type: String, required: true },
-    artworkUrl130: { type: String, required: false },
+    artworartworkUrl60: { type: String, required: false },
     artistName: { type: String, required: true },
-    price: { type: Number, required: false },
+    trackPrice: { type: Number, required: false },
     previewUrl: { type: String, required: true }
 });
 
