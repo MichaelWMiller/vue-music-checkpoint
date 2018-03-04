@@ -12,6 +12,7 @@ router.get("/api/mytunes/:id", (req, res, next) => {
 
 //GET ALL MyTunes
 router.get("/api/mytunes", (req, res, next) => {
+    debugger
     Mytunes.find()
         .then(mytunes => {
             return res.send(mytunes);
@@ -32,9 +33,10 @@ router.delete("/api/mytunes/:id", (req, res, next) => {
 //Create MyTune 
 
 router.post("/api/mytunes", (req, res, next) => {
+    debugger
     Mytunes.create(req.body)
-        .then(post => {
-            res.send(post);
+        .then(tune => {
+            res.send(tune);
         })
         .catch(next)
 })

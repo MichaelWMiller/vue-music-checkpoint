@@ -5,6 +5,7 @@ import $ from 'jquery'
 
 let mytunesDB = axios.create({
     baseURL: "//localhost:3000/api/mytunes",
+    withCredentials: true,
     timeout: 2000
 })
 
@@ -15,11 +16,15 @@ export default new vuex.Store({
     state: {
         myTunes: [],
         results: [],
+        track: {},
+        tune: {},
         activeMytune: {}
     },
     mutations: {
+        setMyResults(state, payload) {
+            state.myTunes = payload
+        },
         setResults(state, results) {
-
             state.results = results
         },
         setActiveMytune(state, payload) {
@@ -42,16 +47,26 @@ export default new vuex.Store({
         },
         getMyTunes({ commit, dispatch }, payload) {
             //this should send a get request to your server to return the list of saved tunes
+
             mytunesDB(payload)
                 .then(res => {
-                    commit("setResults", res.data.results)
+                    commit("setMyResults", res.data)
                 })
                 .catch(err => {
                     console.error(err)
                 })
         },
-        addToMyTunes({ commit, dispatch }, track) {
-            //this will post to your server adding a new track to your tunes
+        addToMyTunes({ commit, dispatch }, tune) {
+            debugger
+            mytunesDB
+                .post("", tune)
+                .then(res => {
+                    dispatch("getMyTunes", res.data)
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+                //this will post to your server adding a new track to your tunes
         },
         removeTrack({ commit, dispatch }, track) {
             //Removes track from the database with delete

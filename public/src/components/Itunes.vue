@@ -8,12 +8,21 @@
         <div></div>
         <div class="container">
           <div v-for="tune in tunes" class="row d-md-flex justify-left justify-content-around p-2 m-4" id="itunes-here">
-             <div class="col-md-12">
+             <div class="col-md-12 cardLook">
                 <p>{{tune.trackName}}</p[>
-                <img class="img-responsive" :src="tune.artworkUrl60" alt="Card image">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <img class="img-responsive" :src="tune.artworkUrl60" alt="Card image">
+                            </div>
+                            <div class="col-sm-6 m-2">
+                                <button @click="addToMyTunes(tune)">Add Me</button>                 
+                            </div>
+                        </div>
+                    </div>
                 <p id="artist">{{tune.artistName}}</p>
                 <audio :src="tune.previewUrl" controls= "controls" style="width: 20reml"></audio>
-                <button @click="addToPlayList">Add Me</button>
+               
              </div> 
           </div> 
         </div>
@@ -29,6 +38,7 @@
                 myArtist: ''
             }
         },
+        props: ['tune'],
         computed: {
             tunes() {
                 return this.$store.state.results
@@ -39,17 +49,27 @@
         },
         methods: {
             getMusicByArtist() {
-
                 this.$store.dispatch('getMusicByArtist', this.artist)
             },
             getMyTunes() {
                 this.$store.dispatch('getMyTunes')
+            },
+            addToMyTunes(tune) {
+                debugger
+                this.$store.dispatch('addToMyTunes', tune)
             }
         }
     }
 </script>
 
 <style>
+    .cardLook {
+        border-style: solid;
+        border-width: 2px;
+        border-top-color: black;
+        border-bottom-color: #000;
+    }
+    
     p {
         font-size: 1.5rem;
     }
