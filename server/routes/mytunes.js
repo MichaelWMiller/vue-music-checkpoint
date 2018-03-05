@@ -12,7 +12,7 @@ router.get("/api/mytunes/:id", (req, res, next) => {
 
 //GET ALL MyTunes
 router.get("/api/mytunes", (req, res, next) => {
-    debugger
+
     Mytunes.find()
         .then(mytunes => {
             return res.send(mytunes);
@@ -22,7 +22,6 @@ router.get("/api/mytunes", (req, res, next) => {
 
 // //Delete MyTune
 router.delete("/api/mytunes/:id", (req, res, next) => {
-
     Mytunes.findByIdAndRemove(req.params.id)
         .then(mytune => {
             res.send({ message: "Successfully deleted mytune" })
@@ -33,7 +32,7 @@ router.delete("/api/mytunes/:id", (req, res, next) => {
 //Create MyTune 
 
 router.post("/api/mytunes", (req, res, next) => {
-    debugger
+
     Mytunes.create(req.body)
         .then(tune => {
             res.send(tune);

@@ -15,11 +15,11 @@
                            </div>
                            <div class="col-sm-6">
                             <div class="m-3">
-                                <i class="fas fa-arrow-circle-up">Promote</i>
+                                <button class="button btn prode" @click="promoteTrack(tune)">Promote Track</button>
                             </div>
                             <div class="m-3">
-                                <i class="fas fa-arrow-circle-down">Demote</i>
-                        </div>
+                                    <button class="button btn prode" @click="demoteTrack(tune)">Demote Track</button>
+                                </div>
                            </div>
                        </div>
                    </div>
@@ -28,7 +28,9 @@
                     <p id="artist">{{tune.artistName}}</p>
                     <audio :src="tune.previewUrl" controls= "controls" style="width: 20reml"></audio>
                     <!-- <button @click="addToPlayList">Add Me</button> -->
-                       
+                       <div>
+                            <button class="btn button" @click="removeTrack(tune)">Remove From List</button>
+                       </div>
                 </div>
                 </div>
 
@@ -45,10 +47,10 @@
         name: 'My-Tunes',
         data() {
             return {
-                tune: ""
-                    // myTunes: ""
+
             }
         },
+        props: ['tune'],
         computed: {
             myTunes() {
                 //return this.$store.state.myTunes
@@ -71,6 +73,15 @@
         methods: {
             getMyTunes() {
                 this.$store.dispatch('getMyTunes')
+            },
+            removeTrack(tune) {
+                this.$store.dispatch('removeTrack', tune)
+            },
+            promoteTrack(tune) {
+                this.$store.dispatch('promoteTrack', tune)
+            },
+            demoteTrack(tune) {
+                this.$store.dispatch('demoteTrack', tune)
             }
 
         }
@@ -86,7 +97,7 @@
     }
     
     button {
-        font-size: 11px;
+        margin: 3px;
     }
     
     p {

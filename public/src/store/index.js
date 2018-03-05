@@ -18,7 +18,8 @@ export default new vuex.Store({
         results: [],
         track: {},
         tune: {},
-        activeMytune: {}
+        activeMytune: {},
+        activeId: {}
     },
     mutations: {
         setMyResults(state, payload) {
@@ -32,8 +33,63 @@ export default new vuex.Store({
         },
         addToMyPlayList(state, payload) {
             state.activeMytune = payload
+        },
+        promoteTrack(state, id) {
+
+            var arr = state.myTunes
+            var newInd = 0
+
+            //var arr = payload
+            for (var i = 0; i < arr.length; i++) {
+                var tune = arr[i]
+
+                if (id == arr[i]._id) {
+                    if (i > 0) {
+                        newInd = i - 1
+                    } else {
+                        newInd == 0
+                    }
+                    arr.splice(newInd, 0, arr.splice(i, 1)[0]);
+                    var chIndex = i
+                    break;
+                }
+
+            }
+            //payload[chIndex].save
+
+            state.myTunes = arr
+
+        },
+        demoteTrack(state, id) {
+
+            var arr = state.myTunes
+            var newInd = arr.length - 1
+
+            //var arr = payload
+            for (var i = 0; i < arr.length; i++) {
+                var tune = arr[i]
+
+                if (id == arr[i]._id) {
+                    if (i < arr.length - 1) {
+                        newInd = i + 1
+                    } else {
+                        newInd == arr.length - 1
+                    }
+
+                    arr.splice(newInd, 0, arr.splice(i, 1)[0]);
+                    var chIndex = i
+                    break;
+                }
+
+            }
+            //payload[chIndex].save
+
+            state.myTunes = arr
+
         }
+
     },
+
     actions: {
         getMusicByArtist({ commit, dispatch }, artist) {
 
@@ -56,10 +112,10 @@ export default new vuex.Store({
                     console.error(err)
                 })
         },
-        addToMyTunes({ commit, dispatch }, tune) {
-            debugger
+        addToMyTunes({ commit, dispatch }, track) {
+
             mytunesDB
-                .post("", tune)
+                .post("", track)
                 .then(res => {
                     dispatch("getMyTunes", res.data)
                 })
@@ -69,13 +125,39 @@ export default new vuex.Store({
                 //this will post to your server adding a new track to your tunes
         },
         removeTrack({ commit, dispatch }, track) {
+            mytunesDB
+                .delete("" + track._id)
+                .then(res => {
+                    dispatch("getMyTunes", res.data)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+
             //Removes track from the database with delete
         },
         promoteTrack({ commit, dispatch }, track) {
-            //this should increase the position / upvotes and downvotes on the track
+            var id = track._id
+            mytunesDB(track)
+                .then(res => {
+
+                    commit("promoteTrack", id)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         },
         demoteTrack({ commit, dispatch }, track) {
             //this should decrease the position / upvotes and downvotes on the track
+            var id = track._id
+            mytunesDB(track)
+                .then(res => {
+
+                    commit("demoteTrack", id)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         }
 
     }

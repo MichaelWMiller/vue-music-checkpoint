@@ -55,7 +55,7 @@
                 this.$store.dispatch('getMyTunes')
             },
             addToMyTunes(tune) {
-                debugger
+
                 this.$store.dispatch('addToMyTunes', tune)
             }
         }
