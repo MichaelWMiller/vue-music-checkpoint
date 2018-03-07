@@ -12,7 +12,7 @@ router.get("/api/mytunes/:id", (req, res, next) => {
 
 //GET ALL MyTunes
 router.get("/api/mytunes", (req, res, next) => {
-
+    debugger
     Mytunes.find()
         .then(mytunes => {
             return res.send(mytunes);
@@ -39,5 +39,15 @@ router.post("/api/mytunes", (req, res, next) => {
         })
         .catch(next)
 })
+
+router.put("/api/mytunes/:_id", (req, res, next) => {
+
+    Mytunes.update(req.body, { new: true })
+        .then(tune => {
+            res.send({ message: "Successfully updated post", data: tune })
+        })
+        .catch(next)
+})
+
 
 module.exports = { router };

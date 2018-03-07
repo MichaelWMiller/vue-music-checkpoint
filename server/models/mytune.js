@@ -7,7 +7,8 @@ var schema = new Schema({
     artworkUrl60: { type: String, required: false },
     artistName: { type: String, required: true },
     trackPrice: { type: Number, required: false },
-    previewUrl: { type: String, required: true }
+    previewUrl: { type: String, required: true },
+    likes: { type: Number, required: true, default: 0 }
 });
 
 module.exports = mongoose.model(schemaName, schema)
